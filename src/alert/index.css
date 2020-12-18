@@ -1,0 +1,19 @@
+.Alert {
+  position: fixed;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  top: 10px;
+  left: 0;
+  width: 100%;
+}
+
+.Alert hr {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.Alert.hide {
+  display: none;
+}

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ExampleComponent } from 'dd-react-lib'
+import { ExampleComponent, Alert } from 'dd-react-lib'
 import 'dd-react-lib/dist/index.css'
 
 const App = () => {
