@@ -1,81 +1,89 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
+import {Alert, AlertTitle} from '@material-ui/lab'
 
-import $ from 'jquery'
+import styles from './index.css'
 
-import './index.css'
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+  },
+}));
 
-class Alert extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      alert: 'primary',
-      title: '',
-      message: '',
-      show: false
-    };
-    this.handleAlert = this.handleAlert.bind(this);
-  }
+const DD_ALERT_EVENT = 'dd-alert-event';
 
-  componentDidMount() {
-    let $alert = $('.Alert');
-    $alert.on('alert-event', this.handleAlert);
-    $alert.on('click', () => this.setState({show: false}));
-  }
+export function DDAlert(props) {
+  const classes = useStyles();
+  const [alert, setAlert] = useState('info');
+  const [title, setTitle] = useState('');
+  const [message, setMessage] = useState('');
+  const [show, setShow] = useState(props.show);
 
-  componentWillUnmount() {
-    $('.Alert').removeEventListener('alert-event');
-  }
-
-  handleAlert(event) {
-    this.setState({
-      alert: event.alert,
-      title: event.title,
-      message: event.message,
-      show: true
-    });
-    if (event.timeout > 0) {
-      setTimeout(() => {
-        this.setState({
-          show: false
-        });
-      }, event.timeout);
+  const componentWillUnmount = () => {
+    let $alert = document.getElementById('DDAlert');
+    if ($alert) {
+      $alert.removeEventListener(DD_ALERT_EVENT);
     }
   }
 
-  render() {
-    return (
-      <div className={'Alert' + (this.state.show ? '' : ' hide')}>
-        <div className={'alert alert-' + this.state.alert} role="alert">
-          <h4 className="alert-heading text-center">{this.state.title}</h4>
-          <hr/>
-          <div dangerouslySetInnerHTML={{__html: this.state.message}}/>
-        </div>
-      </div>
-    );
+  const componentDidMount = () => {
+    let $alert = document.getElementById('DDAlert');
+    if ($alert) {
+      $alert.addEventListener(DD_ALERT_EVENT, handleAlert);
+      $alert.addEventListener('click', () => setShow(false));
+    }
+    return componentWillUnmount;
   }
+
+  const handleAlert = (event) => {
+    let detail = event.detail;
+    setAlert(detail.alert);
+    setTitle(detail.title);
+    setMessage(detail.message);
+    setShow(true);
+    if (detail.timeout > 0) {
+      setTimeout(() => {
+        setShow(false);
+      }, detail.timeout);
+    }
+  }
+
+  useEffect(componentDidMount, []);
+
+  return (
+    <div id={'DDAlert'} className={styles.Alert + (show ? '' : ' ' + styles.hide)}>
+      <div className={classes.root}>
+        <Alert severity={alert}>
+          <AlertTitle>{title}</AlertTitle>
+          <div dangerouslySetInnerHTML={{__html: message}}/>
+        </Alert>
+      </div>
+    </div>
+  );
 }
 
-export default Alert;
-
 export function sendAlert(event) {
-  let alertElement = $('.Alert');
-  if (alertElement) {
-    alertElement.trigger(event);
+  let $alert = document.getElementById('DDAlert');
+  if ($alert) {
+    $alert.dispatchEvent(new CustomEvent(event.type, {detail: event}));
   }
 }
 
 export function sendErrorAlert(event) {
-  sendAlert({type: 'alert-event', alert: 'danger', title: event.title, message: event.message, timeout: event.timeout})
+  sendAlert({type: DD_ALERT_EVENT, alert: 'error', title: event.title, message: event.message, timeout: event.timeout})
 }
 
 export function sendSuccessAlert(event) {
-  sendAlert({type: 'alert-event', alert: 'success', title: event.title, message: event.message, timeout: event.timeout})
+  sendAlert({type: DD_ALERT_EVENT, alert: 'success', title: event.title, message: event.message, timeout: event.timeout})
 }
 
 export function sendInfoAlert(event) {
-  sendAlert({type: 'alert-event', alert: 'info', title: event.title, message: event.message, timeout: event.timeout})
+  sendAlert({type: DD_ALERT_EVENT, alert: 'info', title: event.title, message: event.message, timeout: event.timeout})
 }
 
 export function sendWarningAlert(event) {
-  sendAlert({type: 'alert-event', alert: 'warning', title: event.title, message: event.message, timeout: event.timeout})
+  sendAlert({type: DD_ALERT_EVENT, alert: 'warning', title: event.title, message: event.message, timeout: event.timeout})
 }

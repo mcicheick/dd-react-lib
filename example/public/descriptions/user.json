@@ -1,0 +1,208 @@
+{
+  "name": "User",
+  "value": "Users",
+  "path": "user",
+  "secured": false,
+  "model": {
+    "roles": [],
+    "username": null,
+    "password": null,
+    "firstName": null,
+    "lastName": null,
+    "gender": null,
+    "userToken": null,
+    "lastConnexion": null,
+    "otp": null,
+    "externalId": null,
+    "consentToken": null,
+    "optinEmail": null,
+    "hasProfileImage": false,
+    "admin": false,
+    "birthDate": null,
+    "promotion": null,
+    "createdBy": null,
+    "createDate": "2020-12-18T12:40:01.087-0500",
+    "modifyDate": "2020-12-18T12:40:01.087-0500",
+    "active": true,
+    "modifiedBy": null,
+    "ownerId": null,
+    "options": {},
+    "id": null,
+    "phoneNumber": "",
+    "profileName": "",
+    "name": " null"
+  },
+  "schemes": [
+    {
+      "type": "String",
+      "field": "firstName",
+      "sortable": true,
+      "filter": true,
+      "editable": true,
+      "readonly": false,
+      "required": false
+    },
+    {
+      "type": "String",
+      "field": "lastName",
+      "sortable": true,
+      "filter": true,
+      "editable": true,
+      "readonly": false,
+      "required": false
+    },
+    {
+      "type": "String",
+      "field": "username",
+      "sortable": true,
+      "filter": true,
+      "editable": true,
+      "readonly": false,
+      "required": false
+    },
+    {
+      "type": "String",
+      "field": "password",
+      "sortable": true,
+      "filter": true,
+      "editable": true,
+      "readonly": false,
+      "required": false
+    },
+    {
+      "type": "Date",
+      "field": "birthDate",
+      "sortable": true,
+      "filter": true,
+      "editable": true,
+      "readonly": false,
+      "required": false
+    },
+    {
+      "type": "Integer",
+      "field": "promotion",
+      "sortable": true,
+      "filter": true,
+      "editable": true,
+      "readonly": false,
+      "required": false
+    },
+    {
+      "type": "String",
+      "field": "gender",
+      "sortable": true,
+      "filter": true,
+      "editable": true,
+      "readonly": false,
+      "required": false
+    },
+    {
+      "type": "String",
+      "field": "userToken",
+      "sortable": true,
+      "filter": true,
+      "editable": true,
+      "readonly": false,
+      "required": false
+    },
+    {
+      "type": "Date",
+      "field": "lastConnexion",
+      "sortable": true,
+      "filter": true,
+      "editable": true,
+      "readonly": false,
+      "required": false
+    },
+    {
+      "type": "String",
+      "field": "otp",
+      "sortable": true,
+      "filter": true,
+      "editable": true,
+      "readonly": false,
+      "required": false
+    },
+    {
+      "type": "String",
+      "field": "externalId",
+      "sortable": true,
+      "filter": true,
+      "editable": true,
+      "readonly": false,
+      "required": false
+    },
+    {
+      "type": "String",
+      "field": "consentToken",
+      "sortable": true,
+      "filter": true,
+      "editable": true,
+      "readonly": false,
+      "required": false
+    },
+    {
+      "type": "String",
+      "field": "optinEmail",
+      "sortable": true,
+      "filter": true,
+      "editable": true,
+      "readonly": false,
+      "required": false
+    },
+    {
+      "type": "List",
+      "field": "roles",
+      "sortable": true,
+      "filter": true,
+      "editable": true,
+      "readonly": false,
+      "required": false
+    },
+    {
+      "type": "List",
+      "field": "elections",
+      "sortable": true,
+      "filter": true,
+      "editable": true,
+      "readonly": false,
+      "required": false
+    },
+    {
+      "type": "List",
+      "field": "candidates",
+      "sortable": true,
+      "filter": true,
+      "editable": true,
+      "readonly": false,
+      "required": false
+    },
+    {
+      "type": "List",
+      "field": "votes",
+      "sortable": true,
+      "filter": true,
+      "editable": true,
+      "readonly": false,
+      "required": false
+    },
+    {
+      "type": "List",
+      "field": "images",
+      "sortable": true,
+      "filter": true,
+      "editable": true,
+      "readonly": false,
+      "required": false
+    },
+    {
+      "type": "List",
+      "field": "comments",
+      "sortable": true,
+      "filter": true,
+      "editable": true,
+      "readonly": false,
+      "required": false
+    }
+  ]
+}
