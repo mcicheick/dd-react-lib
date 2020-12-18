@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react'
 
-import {DDAlert, DDChart, DDDataGrid, ExampleComponent, sendInfoAlert, sendSuccessAlert} from '@djammadev/react-lib'
+import {DDAlert, DDChart, DDDataGrid, ExampleComponent, sendInfoAlert, sendSuccessAlert} from 'dd-react-lib'
 import {Button, Container} from '@material-ui/core'
 import {createMuiTheme, makeStyles, ThemeProvider} from '@material-ui/core/styles';
 import {blue, green} from '@material-ui/core/colors';
-import '@djammadev/react-lib/dist/index.css'
+import 'dd-react-lib/dist/index.css'
 
 const useStyles = makeStyles((theme) => ({
   margin: {
