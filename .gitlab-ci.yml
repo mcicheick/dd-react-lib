@@ -89,6 +89,7 @@ deploy react-lib on npm:
   tags:
     - dd-runner
   script:
+    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}">.npmrc
     - NPM_TOKEN=${NPM_TOKEN} npm publish --access public
   only:
     changes:
