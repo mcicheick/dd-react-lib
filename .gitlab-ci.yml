@@ -1,22 +1,22 @@
 image: djammadev/djamminux:latest
 
 stages:
-  - build
+  - install
   - test
+  - build
   - deploy
   - merge-request
   - tag
 
-build react-lib:
+install react-lib:
   artifacts:
     paths:
-      - dist/
-  stage: build
+      - node_modules/
+  stage: install
   tags:
     - dd-runner
   script:
     - npm install
-    - npm run build
   only:
     changes:
       - src/**/*
@@ -29,6 +29,21 @@ test react-lib:
     - dd-runner
   script:
     - npm run test
+  only:
+    changes:
+      - src/**/*
+      - package.json
+      - .gitlab-ci.yml
+
+build react-lib:
+  artifacts:
+    paths:
+      - dist/
+  stage: build
+  tags:
+    - dd-runner
+  script:
+    - npm run build
   only:
     changes:
       - src/**/*
@@ -81,7 +96,6 @@ deploy react-lib on npm:
       - .gitlab-ci.yml
     refs:
       - master
-      - develop
 
 tagging build:
   stage: tag
