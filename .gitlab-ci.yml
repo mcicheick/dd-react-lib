@@ -22,6 +22,8 @@ install react-lib:
       - src/**/*
       - package.json
       - .gitlab-ci.yml
+  except:
+    - tags
 
 test react-lib:
   stage: test
@@ -34,6 +36,8 @@ test react-lib:
       - src/**/*
       - package.json
       - .gitlab-ci.yml
+  except:
+    - tags
 
 build react-lib:
   artifacts:
@@ -49,6 +53,8 @@ build react-lib:
       - src/**/*
       - package.json
       - .gitlab-ci.yml
+  except:
+    - tags
 
 open merge request on develop:
   stage: merge-request
@@ -61,6 +67,7 @@ open merge request on develop:
     - master
     - /^develop_.*$/
     - /^master_.*$/
+    - tags
 
 opening merge request on features:
   stage: merge-request
