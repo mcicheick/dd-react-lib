@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react'
 
 import {DDAlert, DDChart, DDDataGrid, ExampleComponent, sendInfoAlert, sendSuccessAlert} from '@djammadev/react-lib'
-import {Button, Container} from '@material-ui/core'
+import {Button, Checkbox, Container} from '@material-ui/core'
 import {createMuiTheme, makeStyles, ThemeProvider} from '@material-ui/core/styles';
 import {blue, green} from '@material-ui/core/colors';
+import * as moment from 'moment';
 import '@djammadev/react-lib/dist/index.css'
 
 const useStyles = makeStyles((theme) => ({
@@ -25,12 +26,14 @@ const App = () => {
     {id: 3, col1: 'Material-UI', col2: 'is Amazing'},
   ];
 
-  const [gridApi, setGridApi] = useState(null);
   const [data, setData] = useState([]);
 
+  const [autoLoad, setAutoLoad] = useState(true)
+  const [dataFromParent, setDataFromParent] = useState(true)
+  const [autoChart, setAutoChart] = useState(true)
+  const [chartWithData, setChartWithData] = useState(true)
+
   const onGridReady = (params) => {
-    console.log('--- params --- ', params);
-    setGridApi(params.api);
     params.api.setRowData(rows)
     params.api.setColumnDefs(columns);
   }
@@ -44,7 +47,7 @@ const App = () => {
     fetch('/users.json')
       .then(res => res.json())
       .then(response => setData(response.entities))
-  }, [gridApi]);
+  }, []);
 
   const columnMapper = (column) => {
     let mapping = {
@@ -91,7 +94,9 @@ const App = () => {
 
   return <Container>
     <DDAlert show={true}/>
+
     <ExampleComponent text="Djamma Dev React Library Example 😄"/>
+
     <ThemeProvider theme={theme}>
       <Button variant="contained" color="secondary" className={classes.margin} onClick={(e) => {
         console.log('----');
@@ -113,25 +118,76 @@ const App = () => {
       }}>Alert Success</Button>
     </ThemeProvider>
 
-    <h2>Auto load data</h2>
-    <DDDataGrid
-      rowModelType={"infinite"}
-      columnsPath={"descriptions/user.json"}
-      dataPath={"users.json"}
-      columns={columns}
-      rows={rows}
-      columnMapper={columnMapper}
-      style={{height: 300, width: '100%', marginBottom: 20}}/>
-    <h2>Passing data from parent</h2>
-    <DDDataGrid
-      onGridReady={onGridReady}
-      columns={columns}
-      rows={rows}
-      style={{height: 300, width: '100%', marginBottom: 20}}/>
-    <h2>Chart Js</h2>
-    <DDChart getLabels={getLabels} getData={getData} getLabelColor={getLabelColor} height={100} width={400}/>
-    <h2>Chart With Data</h2>
-    <DDChart type={"doughnut"} labelKey={"promotion"} data={data} height={100} width={400}/>
+    <h2>
+      Auto load data
+      <Checkbox
+        checked={autoLoad}
+        value={autoLoad}
+        onChange={(e) => setAutoLoad(e.target.checked)}/>
+    </h2>
+    {
+      autoLoad &&
+      <DDDataGrid
+        rowModelType={"infinite"}
+        columnsPath={"descriptions/user.json"}
+        dataPath={"users.json"}
+        columns={columns}
+        rows={rows}
+        columnMapper={columnMapper}
+        style={{height: 300, width: '100%', marginBottom: 20}}/>}
+
+    <h2>
+      Passing data from parent
+      <Checkbox
+        checked={dataFromParent}
+        value={dataFromParent}
+        onChange={(e) => setDataFromParent(e.target.checked)}/>
+    </h2>
+    {
+      dataFromParent &&
+      <DDDataGrid
+        onGridReady={onGridReady}
+        columns={columns}
+        rows={rows}
+        style={{height: 300, width: '100%', marginBottom: 20}}/>
+    }
+
+    <h2>
+      Chart Js
+      <Checkbox
+        checked={autoChart}
+        value={autoChart}
+        onChange={(e) => setAutoChart(e.target.checked)}/>
+    </h2>
+    {
+      autoChart &&
+      <DDChart
+        labelKey={"votes"}
+        getLabels={getLabels}
+        getData={getData}
+        getLabelColor={getLabelColor}
+        height={100}
+        width={400}/>
+    }
+
+    <h2>
+      Chart With Data
+      <Checkbox
+        checked={chartWithData}
+        value={chartWithData}
+        onChange={(e) => setChartWithData(e.target.checked)}/>
+    </h2>
+    {
+      chartWithData &&
+      <DDChart type={"bar"}
+               labelKey={[(item) => moment(item.createDate).format('YYYY-MM-DD') || 'Unknown', (item) => item.gender === 'MALE' ? 'Male' : 'Female']}
+               backgroundOpacity={0.4}
+               borderOpacity={1}
+               borderWidth={1}
+               data={data}
+               height={200}
+               width={400}/>
+    }
   </Container>
 }
 
