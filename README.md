@@ -1,13 +1,13 @@
-# dd-react-lib
+# @djammadev/react-lib
 
 > Djamma Dev React Library
 
-[![NPM](https://img.shields.io/npm/v/dd-react-lib.svg)](https://www.npmjs.com/package/dd-react-lib) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/@djammadev/react-lib.svg)](https://www.npmjs.com/package/@djammadev/react-lib) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Install
 
 ```bash
-npm install --save dd-react-lib
+npm install --save @djammadev/react-lib
 ```
 
 ## Usage
@@ -15,11 +15,11 @@ npm install --save dd-react-lib
 ```jsx
 import React, {useEffect, useState} from 'react'
 
-import {DDAlert, DDChart, DDDataGrid, ExampleComponent, sendInfoAlert, sendSuccessAlert} from 'dd-react-lib'
+import {DDAlert, DDChart, DDDataGrid, ExampleComponent, sendInfoAlert, sendSuccessAlert} from '@djammadev/react-lib'
 import {Button, Container} from '@material-ui/core'
 import {createMuiTheme, makeStyles, ThemeProvider} from '@material-ui/core/styles';
 import {blue, green} from '@material-ui/core/colors';
-import 'dd-react-lib/dist/index.css'
+import '@djammadev/react-lib/dist/index.css'
 
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -44,7 +44,6 @@ const App = () => {
   const [data, setData] = useState([]);
 
   const onGridReady = (params) => {
-    console.log('--- params --- ', params);
     setGridApi(params.api);
     params.api.setRowData(rows)
     params.api.setColumnDefs(columns);
@@ -119,7 +118,6 @@ const App = () => {
     </ThemeProvider>
     <ThemeProvider theme={theme}>
       <Button variant="contained" color="primary" className={classes.margin} onClick={(e) => {
-        console.log('----');
         sendSuccessAlert({
           title: 'This is a success notification',
           message: "I'm the best for ever...",

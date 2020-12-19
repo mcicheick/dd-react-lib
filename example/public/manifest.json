@@ -1,6 +1,6 @@
 {
-  "short_name": "dd-react-lib",
-  "name": "dd-react-lib",
+  "short_name": "@djammadev/react-lib",
+  "name": "@djammadev/react-lib",
   "icons": [
     {
       "src": "favicon.ico",
