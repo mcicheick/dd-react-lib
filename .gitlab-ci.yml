@@ -82,6 +82,7 @@ opening merge request develop on master:
     - HOST=${CI_PROJECT_URL} CI_PROJECT_ID=${CI_PROJECT_ID} CI_COMMIT_REF_NAME=${CI_COMMIT_REF_NAME} GITLAB_USER_ID=${GITLAB_USER_ID} PRIVATE_TOKEN=${PRIVATE_TOKEN} gitlabci.sh create_merge --target-branch master
   only:
     - develop
+  when: manual
 
 # Master - NPM
 deploy react-lib on npm:
