@@ -23,14 +23,14 @@ export function DDAlert(props) {
   const [show, setShow] = useState(props.show);
 
   const componentWillUnmount = () => {
-    let $alert = document.getElementById('DDAlert');
+    let $alert = document.getElementById(getId());
     if ($alert) {
       $alert.removeEventListener(DD_ALERT_EVENT);
     }
   }
 
   const componentDidMount = () => {
-    let $alert = document.getElementById('DDAlert');
+    let $alert = document.getElementById(getId());
     if ($alert) {
       $alert.addEventListener(DD_ALERT_EVENT, handleAlert);
       $alert.addEventListener('click', () => setShow(false));
@@ -51,10 +51,14 @@ export function DDAlert(props) {
     }
   }
 
+  const getId = () => {
+    return props.id || 'DDAlert'
+  }
+
   useEffect(componentDidMount, []);
 
   return (
-    <div id={'DDAlert'} className={styles.Alert + (show ? '' : ' ' + styles.hide)}>
+    <div id={getId()} className={styles.Alert + (show ? '' : ' ' + styles.hide)}>
       <div className={classes.root}>
         <Alert severity={alert}>
           <AlertTitle>{title}</AlertTitle>
@@ -66,24 +70,24 @@ export function DDAlert(props) {
 }
 
 export function sendAlert(event) {
-  let $alert = document.getElementById('DDAlert');
+  let $alert = document.getElementById(event.id || 'DDAlert');
   if ($alert) {
     $alert.dispatchEvent(new CustomEvent(event.type, {detail: event}));
   }
 }
 
 export function sendErrorAlert(event) {
-  sendAlert({type: DD_ALERT_EVENT, alert: 'error', title: event.title, message: event.message, timeout: event.timeout})
+  sendAlert({id: event.id, type: DD_ALERT_EVENT, alert: 'error', title: event.title, message: event.message, timeout: event.timeout})
 }
 
 export function sendSuccessAlert(event) {
-  sendAlert({type: DD_ALERT_EVENT, alert: 'success', title: event.title, message: event.message, timeout: event.timeout})
+  sendAlert({id: event.id, type: DD_ALERT_EVENT, alert: 'success', title: event.title, message: event.message, timeout: event.timeout})
 }
 
 export function sendInfoAlert(event) {
-  sendAlert({type: DD_ALERT_EVENT, alert: 'info', title: event.title, message: event.message, timeout: event.timeout})
+  sendAlert({id: event.id, type: DD_ALERT_EVENT, alert: 'info', title: event.title, message: event.message, timeout: event.timeout})
 }
 
 export function sendWarningAlert(event) {
-  sendAlert({type: DD_ALERT_EVENT, alert: 'warning', title: event.title, message: event.message, timeout: event.timeout})
+  sendAlert({id: event.id, type: DD_ALERT_EVENT, alert: 'warning', title: event.title, message: event.message, timeout: event.timeout})
 }

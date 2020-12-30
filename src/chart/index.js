@@ -3,12 +3,13 @@ import Chart from 'chart.js'
 import _ from 'underscore';
 
 export function DDChart(props) {
-
+  console.log('----DDChart----');
   const [chartApi, setChartApi] = useState(null);
 
   const ctx = useRef(null);
 
   const destroyApi = () => {
+    console.log('-----destroyApi-----');
     if (chartApi) {
       chartApi.destroy();
     }
@@ -128,9 +129,21 @@ export function DDChart(props) {
             beginAtZero: true
           }
         }]
+      },
+      onClick : (event, context) => {
+        if ((context || []).length === 0) return;
+        if (props.onClick) {
+          props.onClick(event, context);
+        }
+      },
+      onHover: function(e) {
+        e.target.style.cursor = 'pointer';
+        if(props.onHover) {
+          props.onHover(e);
+        }
       }
     }, props.options || {});
-
+    console.log('--- options --- ', options);
     let labelKey = Array.isArray(props.labelKey) ? props.labelKey : [props.labelKey];
     let initialData = props.data;
     let labelKeyValue = labelKey[0];

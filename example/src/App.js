@@ -1,6 +1,15 @@
 import React, {useEffect, useState} from 'react'
 
-import {DDAlert, DDChart, DDDataGrid, ExampleComponent, sendInfoAlert, sendSuccessAlert} from '@djammadev/react-lib'
+import {
+  DDAlert,
+  DDChart,
+  DDDataGrid,
+  DDSignIn,
+  ExampleComponent,
+  sendInfoAlert,
+  sendSuccessAlert,
+  sendErrorAlert
+} from '@djammadev/react-lib'
 import {Button, Checkbox, Container} from '@material-ui/core'
 import {createMuiTheme, makeStyles, ThemeProvider} from '@material-ui/core/styles';
 import {blue, green} from '@material-ui/core/colors';
@@ -26,12 +35,25 @@ const App = () => {
     {id: 3, col1: 'Material-UI', col2: 'is Amazing'},
   ];
 
+  const options = {
+    responsive: true,
+    plugins: {},
+    animation: {
+      duration: 2000,
+      easing: 'easeOutQuart'
+    },
+    tooltips: {
+      callbacks: {}
+    }
+  }
+
   const [data, setData] = useState([]);
 
   const [autoLoad, setAutoLoad] = useState(true)
   const [dataFromParent, setDataFromParent] = useState(true)
-  const [autoChart, setAutoChart] = useState(true)
+  const [autoChart, setAutoChart] = useState(false)
   const [chartWithData, setChartWithData] = useState(true)
+  const [showSignIn, setShowSignIn] = useState(false)
 
   const onGridReady = (params) => {
     params.api.setRowData(rows)
@@ -88,6 +110,14 @@ const App = () => {
       {r: 153, g: 102, b: 255, a: 0.2},
       {r: 255, g: 159, b: 64, a: 0.2}
     ]
+  }
+
+  const getDatasetLabel = (item) => {
+    return item.gender === 'MALE' ? 'Male' : 'Female';
+  }
+
+  const getLabel = (item) => {
+    return moment(item.createDate).format('YYYY-MM-DD') || 'Unknown';
   }
 
   const classes = useStyles();
@@ -180,13 +210,36 @@ const App = () => {
     {
       chartWithData &&
       <DDChart type={"bar"}
-               labelKey={[(item) => moment(item.createDate).format('YYYY-MM-DD') || 'Unknown', (item) => item.gender === 'MALE' ? 'Male' : 'Female']}
+               labelKey={[getLabel, getDatasetLabel]}
                backgroundOpacity={0.4}
                borderOpacity={1}
                borderWidth={1}
                data={data}
+               options={options}
+               onClick={(event, context) => {
+                 let values = (context || []).map(elem => {
+                   return {datasetLabel: elem._model.datasetLabel, label: elem._model.label};
+                 });
+                 console.log(event, context, values);
+                 let clickedData = data.filter(item => {
+                   return values.reduce((prev, curr) => {
+                     return prev || (curr.datasetLabel === getDatasetLabel(item) && curr.label === getLabel(item));
+                   }, false);
+                 });
+                 console.log('clickedData', clickedData);
+               }}
                height={200}
                width={400}/>
+    }
+    <h2>
+      Show Sign In
+      <Checkbox
+        checked={showSignIn}
+        value={showSignIn}
+        onChange={(e) => setShowSignIn(e.target.checked)}/>
+    </h2>
+    {
+      showSignIn && <DDSignIn authLink={"/api/auth"} onSuccess={(e) => console.log('--- e ---', e)} onError={e => sendErrorAlert({title: "Login Error", message: e.message || JSON.stringify(e)})} copyrightLink={"https://www.djammadev.com"} copyrightTitle={"Djamma Dev"}/>
     }
   </Container>
 }

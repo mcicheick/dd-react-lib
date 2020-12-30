@@ -22,3 +22,7 @@ export {
 export {
   DDChart
 } from './chart';
+
+export {
+  DDSignIn
+} from './sign-in';
