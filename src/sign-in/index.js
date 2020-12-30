@@ -47,8 +47,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DD_ALERT_SIGN_IN = "DDAlert-SignIn";
-
 export function DDSignIn(props) {
 
   let uname = props.username || '';
@@ -108,7 +106,6 @@ export function DDSignIn(props) {
 
   return (
     <Container component="main" maxWidth="xs">
-      <DDAlert id={DD_ALERT_SIGN_IN}/>
       <CssBaseline/>
       <div className={classes.paper}>
         {props.avatar &&
