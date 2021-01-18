@@ -191,6 +191,9 @@ export function DDChart(props) {
       options: options
     });
     setChartApi(chart);
+    if (props.onChartReaddy) {
+      props.onChartReaddy(chart);
+    }
     return destroyApi;
   }
 

@@ -46,7 +46,7 @@ export function DDDataGrid(props) {
    * @param event
    */
   const upsertItem = (event) => {
-    if(!props.dataPath) {
+    if (!props.dataPath) {
       return;
     }
     let item = {
@@ -212,7 +212,7 @@ export function DDDataGrid(props) {
     let params = {};
     params['page'] = `${pageNumber}`;
     params['perPage'] = `${pageSize}`;
-    return search(filter, params);
+    return search(filter, {...params, ...(props.params || {})});
   }
 
   /**
@@ -222,7 +222,7 @@ export function DDDataGrid(props) {
    * @returns {Promise<T>}
    */
   const getData = (pageNumber: number = -1, pageSize: number = -1) => {
-    let url = `${props.dataPath}?page=${pageNumber}&perPage=${pageSize}`;
+    let url = `${props.dataPath}${getQueryParams({page: pageNumber, perPage: pageSize, ...(props.params || {})})}`;
     return fetch(url, {headers: {'Accept': 'application/json'}}).then(res => res.json())
   }
 
